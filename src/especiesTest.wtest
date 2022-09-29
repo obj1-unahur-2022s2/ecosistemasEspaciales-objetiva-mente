@@ -1,0 +1,12 @@
+
+describe "tests de animales" {
+//probar los métodos biomasa(), peso(), consecuenciasDelIncendio, esGrande(),
+//esPequenio(), esMediano(), estaVivo(), etc
+	
+
+}
+
+describe "tests de plantas" {
+//probar los métodos biomasa(), altura(), consecuenciasDelIncendio, esGrande(),
+//esPequenio(), estaVivo() etc
+}

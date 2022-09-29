@@ -1,0 +1,10 @@
+
+describe "test de la reserva" {
+//probar cantidadTotalBiomasa(), habitatsDesequilibrados(), contieneEspecie(), especieEstaEnTodosLosHabitats() etc
+
+}
+
+describe "test de habitats" {
+//probar totalBiomasa(), producirIncendio(), 	
+	
+}
