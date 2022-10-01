@@ -1,12 +1,81 @@
+import especies.*
+import reservaNatural.*
+
+
+	const bovinos= new EspecieFauna(pesoReferencia=1000, coeficiente=10, formaDeLocomocion= correr)
+	const aves= new EspecieFauna(pesoReferencia=10, coeficiente=5, formaDeLocomocion= volar)
+	const cefalopodos= new EspecieFauna(pesoReferencia=12, coeficiente=7, formaDeLocomocion= nadar)
+	const moluscos= new EspecieFauna(pesoReferencia=0.5, coeficiente=2, formaDeLocomocion= quieto)
+	const cereales= new EspecieFlora(alturaDeReferencia= 2)
+	const arboles= new EspecieFlora(alturaDeReferencia= 7)
+	var vaca= new Animal(peso=600, especie=bovinos)
+	var ganso= new Animal(peso=6, especie=aves)
+	var pulpo= new Animal(peso=30, especie= cefalopodos)
+	var mejillon= new Animal(peso=0.05, especie= moluscos)
+	var avena= new Planta(altura=1, especie=cereales)
+	var sauce= new Planta(altura= 12, especie=arboles)
+	var habitat1= new Habitat(seresVivos= [vaca, ganso, avena, sauce])
 
 describe "tests de animales" {
-//probar los métodos biomasa(), peso(), consecuenciasDelIncendio, esGrande(),
-//esPequenio(), esMediano(), estaVivo(), etc
 	
-
+	test "La vaca pesa 600 kg y su biomasa es 36000"{
+		
+		assert.equals(600, vaca.peso())
+		assert.equals(36000, vaca.biomasa())
+	}
+	test "El pulpo es grande, la vaca es mediana, el mejillon es pequenio, el ganso no es grande"{
+		
+		assert.that(pulpo.esGrande())
+		assert.that(vaca.esMediano())
+		assert.that(mejillon.esPequenio())
+		assert.notThat(ganso.esGrande())
+	}
+	test "Las consecuencias del incendio, la vaca está vivo y su peso es 450, el ganso no está vivo"{
+		vaca.sufrirIncendio(habitat1)
+		ganso.sufrirIncendio(habitat1)
+				
+		assert.that(vaca.estaVivo())
+		assert.equals(540, vaca.peso())
+		assert.notThat(ganso.estaVivo())
+		assert.notThat(habitat1.estaEnElHabitat(aves))
+	}
 }
 
 describe "tests de plantas" {
+	
+	test"La avena mide 1 m y su biomasa es 2, la altura del sauce es 12 y su biomasa 7"{
+		
+		assert.equals(1, avena.altura())
+		assert.equals(2, avena.biomasa())
+		assert.equals(12, sauce.altura())
+		assert.equals(7, sauce.biomasa())
+
+	}
+	
+	test"La avena es pequeña y el sauce es grande"{
+		
+		assert.that(avena.esPequenio())
+		assert.that(sauce.esGrande())
+	}
+	
+	test"Después de sufrir el incendio la avena muere, la altura del sauce es 7"{
+		
+		avena.sufrirIncendio(habitat1)
+		sauce.sufrirIncendio(habitat1)
+		
+		assert.equals(7, sauce.altura())
+		assert.notThat(habitat1.estaEnElHabitat(cereales))
+	}
+	
 //probar los métodos biomasa(), altura(), consecuenciasDelIncendio, esGrande(),
 //esPequenio(), estaVivo() etc
+
+
+
+
+
+
+
+
+
 }

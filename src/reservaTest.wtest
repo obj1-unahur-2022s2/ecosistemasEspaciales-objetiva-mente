@@ -1,10 +1,80 @@
+import especies.*
+import reservaNatural.*
 
+const bovinos= new EspecieFauna(pesoReferencia=1000, coeficiente=10, formaDeLocomocion= correr)
+	const aves= new EspecieFauna(pesoReferencia=10, coeficiente=5, formaDeLocomocion= volar)
+	const cefalopodos= new EspecieFauna(pesoReferencia=12, coeficiente=9, formaDeLocomocion= nadar)
+	const moluscos= new EspecieFauna(pesoReferencia=0.5, coeficiente=2, formaDeLocomocion= quieto)
+	const cereales= new EspecieFlora(alturaDeReferencia= 2)
+	const arboles= new EspecieFlora(alturaDeReferencia= 7)
+	const hierbas= new EspecieFlora(alturaDeReferencia=0.5)
+	const florales= new EspecieFlora(alturaDeReferencia= 3)
+	var vaca= new Animal(peso=600, especie=bovinos)
+	var ganso= new Animal(peso=6, especie=aves)
+	var pulpo= new Animal(peso=30, especie= cefalopodos)
+	var mejillon= new Animal(peso=0.05, especie= moluscos)
+	var toro= new Animal(peso=800, especie=bovinos)
+	var avena= new Planta(altura=1, especie=cereales)
+	var sauce= new Planta(altura= 12, especie=arboles)
+	var trebol= new Planta(altura= 0.2, especie= hierbas )
+	var jazmin= new Planta(altura= 1, especie=florales)	
+	var habitat1= new Habitat(seresVivos= [vaca, ganso, avena, sauce])
+	var habitat2= new Habitat (seresVivos= [toro, pulpo, mejillon, jazmin, trebol, avena])
+	
 describe "test de la reserva" {
 //probar cantidadTotalBiomasa(), habitatsDesequilibrados(), contieneEspecie(), especieEstaEnTodosLosHabitats() etc
-
+	method initialize(){
+		reserva.agregarHabitat(habitat1)
+		reserva.agregarHabitat(habitat2)
+	}
+	
+	test "El habitat con mayor biomasa es el habitat 2"{
+		
+		assert.that(reserva.habitatConMayorBiomasa() == habitat2)
+	}
+	
+	test "Cantidad total de biomasa es 36016.2 + 64104.40125"{
+		
+		assert.equals(100120.60125,reserva.cantidadTotalDeBiomasa())	
+	}
+	test "Habitats desequilibrados, solo el habitat1"{
+		
+		assert.that(reserva.habitatsDesequilibrados() == [habitat1])
+	}
+	test "La especie bovinos está en todos los habitats"{
+		
+		assert.that(reserva.estaEnTodosLosHabitats(bovinos))
+	}
 }
 
 describe "test de habitats" {
 //probar totalBiomasa(), producirIncendio(), 	
+	test "La biomasa total del Habitat1 es 36016.2"{
+		
+		assert.equals(36016.2, habitat1.biomasaTotal())
+		
+	}
 	
+	test "Se produce incendio en el habitat 1"{
+		habitat1.producirIncendio()
+		
+		assert.equals(540, vaca.peso())
+		assert.notThat(habitat1.estaEnElHabitat(aves))
+		assert.equals(7, sauce.altura())
+		assert.notThat(habitat1.estaEnElHabitat(cereales))
+	}
+	
+	test "Agregar pulpo al Habitat1"{
+		
+		habitat1.agregarSerVivo(pulpo)
+		
+		assert.that(habitat1.estaEnElHabitat(cefalopodos))
+		
+	}
+	
+	test "El Habitat1 no está equilibrado, el Habitat2 está equilibrado"{
+		
+		assert.notThat(habitat1.estaEnEquilibrio())
+		assert.that(habitat2.estaEnEquilibrio())
+	}
 }
